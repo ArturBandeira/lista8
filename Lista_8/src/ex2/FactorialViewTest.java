@@ -9,13 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FatorialAcceptanceTest {
+public class FactorialViewTest {
     private FrameFixture window;
 
     @BeforeEach
     public void setUp() {
         FatorialView view = GuiActionRunner.execute(FatorialView::new);
-        new FatorialController(view, new Fatorial());
         window = new FrameFixture(BasicRobot.robotWithNewAwtHierarchy(), view.getFrame());
         window.show();
     }
