@@ -1,46 +1,52 @@
 package ex2;
+// para realizar testes de aceitação, fizemos este teste automatico para o FatorialView e o teste de unidade para Fatorial Controller
+import org.assertj.swing.core.BasicRobot;
+import org.assertj.swing.edt.GuiActionRunner;
+import org.assertj.swing.fixture.FrameFixture;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class FactorialViewTest {
+public class FatorialAcceptanceTest {
     private FrameFixture window;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        FactorialView frame = GuiActionRunner.execute(() -> new FactorialView());
-        window = new FrameFixture(frame.frame);
-        window.show(); // Mostra a janela para teste
+        FatorialView view = GuiActionRunner.execute(FatorialView::new);
+        new FatorialController(view, new Fatorial());
+        window = new FrameFixture(BasicRobot.robotWithNewAwtHierarchy(), view.getFrame());
+        window.show();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         window.cleanUp();
     }
 
     @Test
-    @GUITest
-    public void testCalculateFactorial() {
-        window.textBox("numberField").enterText("5");
-        window.button("calculateButton").click();
-        window.label("resultLabel").requireText("Resultado: 120");
+    public void testCalculoFatorialValido() {
+        window.textBox().enterText("5");
+        window.button().click();
+        window.label().requireText("Resultado: 120");
     }
 
     @Test
-    @GUITest
-    public void testCalculateFactorialWithNegativeNumber() {
-        window.textBox("numberField").enterText("-1");
-        window.button("calculateButton").click();
-        window.label("resultLabel").requireText("O número deve ser não-negativo.");
+    public void testEntradaInvalida() {
+        window.textBox().enterText("abc");
+        window.button().click();
+        window.label().requireText("Por favor, insira um número válido");
     }
 
     @Test
-    @GUITest
-    public void testCalculateFactorialWithInvalidInput() {
-        window.textBox("numberField").enterText("abc");
-        window.button("calculateButton").click();
-        window.label("resultLabel").requireText("Por favor, insira um número válido.");
+    public void testNumeroNegativo() {
+        window.textBox().enterText("-1");
+        window.button().click();
+        window.label().requireText("O número de ser não-negativo");
     }
 }
+
+//A diferença entre os testes de unidade (os quais podem ser feitos pelo Junit) e os testes automaticos é o objeto de teste, uma vez que 
+//o teste de unidade testa cada parte do codigo isoladamente e verifica o seu funcionamento, enquanto o teste automatico testa fluxos ao inves de
+//partes isoladas

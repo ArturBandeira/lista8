@@ -1,6 +1,8 @@
 package ex4;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,5 +44,3 @@ class Test_MultiToSet {
         assertEquals(2, setAdapter.size());
     }
 }
-
-

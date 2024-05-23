@@ -20,5 +20,4 @@ public class Multi_Stack<T>{
     public void addAll(Multi_Stack<T> ms) {
         itens.addAll(ms.itens);
     }
-
 }
